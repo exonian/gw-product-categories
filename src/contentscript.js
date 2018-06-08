@@ -1,5 +1,7 @@
 $(function() {
     var partial_url = window.location.href.split(/\/\w{2}-\w{2}\//)[1];
+    partial_url = partial_url.split(/[?#]/)[0];
+    partial_url = partial_url.split(/\/$/)[0];
     if (typeof breadcrumbs !== "undefined") {
         var page_breadcrumbs = breadcrumbs[partial_url];
         if (page_breadcrumbs != undefined) {

@@ -3,7 +3,7 @@
 
   "name": "GW Webstore Product Nav (GB)",
   "description": "Adds links on GW and FW store pages to browse related products",
-  "version": "0.1.1",
+  "version": "0.1.2",
 
   "icons": {
     "16": "icon/icon16.png",
