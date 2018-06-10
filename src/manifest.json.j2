@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+
+  "name": "GW Webstore Product Nav ({{ country_code }})",
+  "description": "Adds links on GW and FW store pages to browse related products",
+  "version": "{% include 'version' %}",
+
+  "icons": {
+    "16": "icon/icon16.png",
+    "48": "icon/icon48.png",
+    "128": "icon/icon128.png"
+  },
+
+  "content_scripts": [
+    {% for site in sites %}
+      {
+        "matches": ["*://*.{{ site.domain }}/{{ site.region }}/*"],
+        "js": ["jquery-3.2.1.min.js", "contentscript.js", "www.{{ site.domain }}-{{ site.region }}-breadcrumbs.json"]
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
