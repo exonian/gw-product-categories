@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 
 class Breadcrumbs(object):
-    output_dir_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'src')
+    output_dir_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
     product_ranges = {
         'www.games-workshop.com': [
             'Warhammer',
