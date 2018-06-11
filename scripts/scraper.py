@@ -126,7 +126,12 @@ class Breadcrumbs(object):
             script_json = script_source[script_source.find(start_phrase) + len(start_phrase):].strip()[:-2]
             data = json.loads(script_json)
             browse_pages = []
-            for category in data['contents'][0]['secondaryContent'][0]['contents'][0]['navigation']:
+            try:
+                categories = data['contents'][0]['secondaryContent'][0]['contents'][0]['navigation']
+            except KeyError:
+                print('    No navigation found')
+                return []
+            for category in categories:
                 if category['name'] not in self.banned_category_names:
                     for entry in category['refinements']:
                         name = entry['properties']['name']
