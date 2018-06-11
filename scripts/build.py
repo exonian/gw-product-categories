@@ -21,19 +21,31 @@ class Build(object):
             self.build_country(country)
 
     def build_country(self, country):
-        pattern = r'www\.(?P<domain>.*)-(?P<region>.{2}-.{2})-breadcrumbs.json'
-        country_breadcrumbs_file_paths = glob.glob(os.path.join(self.data_dir, '*{}-breadcrumbs.json'.format(country)))
-        sites = [re.search(pattern, path).groupdict() for path in country_breadcrumbs_file_paths]
-        manifest = self.manifest_template.render(country_code=country, sites=sites)
+        # remove and recreate country build dir from src dir
+        country_dir = os.path.join(self.build_dir, country)
+        shutil.rmtree(country_dir, ignore_errors=True)
+        shutil.copytree(self.src_dir, country_dir)
 
-        dir_path = os.path.join(self.build_dir, country)
-        try:
-            shutil.rmtree(dir_path)
-        except FileNotFoundError:
-            pass
-        os.mkdir(dir_path)
-        with open(os.path.join(dir_path, 'manifest.json'), 'w') as f:
+        # find and copy breadcrumbs
+        country_breadcrumbs_file_paths = glob.glob(os.path.join(self.data_dir, '*{}-breadcrumbs.json'.format(country)))
+        for breadcrumbs_path in country_breadcrumbs_file_paths:
+            shutil.copy(breadcrumbs_path, country_dir)
+
+        # find sites
+        pattern = r'www\.(?P<domain>.*)-(?P<region>.{2}-.{2})-breadcrumbs.json'
+        sites = [re.search(pattern, path).groupdict() for path in country_breadcrumbs_file_paths]
+
+        # render and write manifest
+        manifest = self.manifest_template.render(country_code=country, sites=sites)
+        with open(os.path.join(country_dir, 'manifest.json'), 'w') as f:
             f.write(manifest)
+
+        # make archive
+        shutil.make_archive(
+            base_name=os.path.join(self.build_dir, 'extension-{country}'.format(country=country)),
+            format='zip',
+            root_dir=country_dir,
+        )
 
 
 if __name__ == '__main__':
