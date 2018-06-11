@@ -105,9 +105,12 @@ class Breadcrumbs(object):
                             product_pages[partial_url].append((name, partial_browse_url))
                     # time.sleep(0.5)
                 print('')
-                print('  Writing data to {}'.format(output_file_path))
-                with open(output_file_path, 'w') as f:
-                    f.write('breadcrumbs = ' + json.dumps(product_pages))
+                if product_pages:
+                    print('  Writing data to {}'.format(output_file_path))
+                    with open(output_file_path, 'w') as f:
+                        f.write('breadcrumbs = ' + json.dumps(product_pages))
+                else:
+                    print('  No data to write to file')
 
 
     def get_browse_pages_for_product_range(self, product_range, website, region):
