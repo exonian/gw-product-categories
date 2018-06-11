@@ -42,7 +42,7 @@ class Build(object):
 
         # make archive
         shutil.make_archive(
-            base_name=os.path.join(self.build_dir, 'extension-{country}'.format(country=country)),
+            base_name=os.path.join(self.parent_dir, 'extension-{country}'.format(country=country)),
             format='zip',
             root_dir=country_dir,
         )
