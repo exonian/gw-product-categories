@@ -38,7 +38,7 @@ class Breadcrumbs(object):
     }
     regions = [
         'en-AU',
-        'en-JP',
+        # 'en-JP',
         'en-GB',
         'en-US',
         'en-NZ',
